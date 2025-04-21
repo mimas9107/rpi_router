@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# 更新並安裝所需軟體
+echo "Updating system and installing necessary packages..."
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y dnsmasq iptables-persistent net-tools
+
+# 設定 eth0 靜態 IP
+echo "Setting static IP for eth0..."
+nmcli con add type ethernet ifname eth0 con-name bridge-eth0 autoconnect yes ip4 192.168.1.1/24
+nmcli con up bridge-eth0
+
+# 配置 dnsmasq 作為 DHCP server
+echo "Configuring dnsmasq as DHCP server..."
+sudo bash -c 'cat > /etc/dnsmasq.conf << EOF
+interface=eth0
+dhcp-range=192.168.1.2,192.168.1.10,255.255.255.0,24h
+EOF'
+
+# 啟用 IP forwarding
+echo "Enabling IP forwarding..."
+sudo sed -i '/^#net.ipv4.ip_forward=1/c\net.ipv4.ip_forward=1' /etc/sysctl.conf
+sudo sysctl -p
+
+# 設定 iptables NAT 轉發
+echo "Setting up NAT for eth0..."
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+# 儲存 iptables 設定
+echo "Saving iptables settings..."
+sudo netfilter-persistent save
+
+# 重啟 dnsmasq 服務
+echo "Restarting dnsmasq service..."
+sudo systemctl restart dnsmasq
+
+# 顯示 eth0 和 wlan0 的 IP 配置
+echo "Current IP configuration:"
+ip addr show eth0
+ip addr show wlan0
+ip addr show eth1
+echo "Setup complete! Your Raspberry Pi is now ready to share internet through eth0 to the router."
+
