@@ -16,12 +16,23 @@
 interface=eth0
 dhcp-range=<要分配的ip range起始> <要分配的ip range結尾>, <netmask>, 24h
 ```
-4. 執行專案中的設定腳本： 
+4. /etc/sysctl.conf 增加設定：
+```bash
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.diable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+```
+存檔後執行： 將設定載入
+```bash
+$ sudo sysctl -p
+```
+
+5. 執行專案中的設定腳本： 
 ```bash
 dhcp_mode/
     setup_bridge.sh
     setiptables2.sh
 ```
-5. RPi4 重開機、分享器也重開機
+6. RPi4 重開機、分享器也重開機
 
  
