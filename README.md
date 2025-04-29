@@ -33,6 +33,11 @@ dhcp_mode/
     setup_bridge.sh
     setiptables2.sh
 ```
+|模式|使用情境|關鍵差異|
+| --- | --- | --- |
+| bridge_mode |	當分享器本身已經有 DHCP，要直接橋接網路層 | Pi 不做 DHCP，分享器自己發 IP|
+| dhcp_mode | 當分享器需要 Pi 分配 IP | Pi 扮演 DHCP server |
+
 6. RPi4 重開機、分享器也重開機
 
  
