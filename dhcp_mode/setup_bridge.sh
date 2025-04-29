@@ -8,14 +8,14 @@ sudo apt install -y dnsmasq iptables-persistent net-tools
 
 # 設定 eth0 靜態 IP
 echo "Setting static IP for eth0..."
-nmcli con add type ethernet ifname eth0 con-name bridge-eth0 autoconnect yes ip4 192.168.1.1/24
+nmcli con add type ethernet ifname eth0 con-name bridge-eth0 autoconnect yes ip4 192.168.88.1/24
 nmcli con up bridge-eth0
 
 # 配置 dnsmasq 作為 DHCP server
 echo "Configuring dnsmasq as DHCP server..."
 sudo bash -c 'cat > /etc/dnsmasq.conf << EOF
 interface=eth0
-dhcp-range=192.168.1.2,192.168.1.10,255.255.255.0,24h
+dhcp-range=192.168.88.2,192.168.88.100,255.255.255.0,24h
 EOF'
 
 # 啟用 IP forwarding
@@ -27,6 +27,15 @@ sudo sysctl -p
 echo "Setting up NAT for eth0..."
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+
+# 20250429 more safety setting than above:
+# iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
+# iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+# iptables -A FORWARD -i wlan0 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+# iptables -A FORWARD -i eth1 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+# iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+# iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+
 # 儲存 iptables 設定
 echo "Saving iptables settings..."
 sudo netfilter-persistent save
