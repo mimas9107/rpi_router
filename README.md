@@ -1,6 +1,7 @@
 ## 測試 RPi4作為網關～
 ### eth0: RPi4 LAN孔 
 ### eth1: 測試用手機 usb分享網路給 RPi4
+### usb0: 手機usb分享網路給 RPi4
 ### wlan0: 測試用手機 wifi熱點分享網路給 RPi4
 
 ### RPi4 LAN孔 接網路線到 wifi分享器的 WAN孔。

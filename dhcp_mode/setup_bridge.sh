@@ -27,6 +27,9 @@ sudo sysctl -p
 echo "Setting up NAT for eth0..."
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+<<<<<<< HEAD
+sudo iptables -t nat -A POSTROUTING -o usb0 -j MASQUERADE
+=======
 
 # 20250429 more safety setting than above:
 # iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
@@ -36,6 +39,7 @@ sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 # iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 # iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
+>>>>>>> 6388795c248e1e8a725c564d5984b2a1ccb652f4
 # 儲存 iptables 設定
 echo "Saving iptables settings..."
 sudo netfilter-persistent save
@@ -49,5 +53,6 @@ echo "Current IP configuration:"
 ip addr show eth0
 ip addr show wlan0
 ip addr show eth1
+ip addr show usb0
 echo "Setup complete! Your Raspberry Pi is now ready to share internet through eth0 to the router."
 
