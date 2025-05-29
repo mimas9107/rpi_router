@@ -27,19 +27,19 @@ sudo sysctl -p
 echo "Setting up NAT for eth0..."
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
-<<<<<<< HEAD
 sudo iptables -t nat -A POSTROUTING -o usb0 -j MASQUERADE
-=======
 
 # 20250429 more safety setting than above:
 # iptables -A FORWARD -i eth0 -o wlan0 -j ACCEPT
 # iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT
+# iptables -A FORWARD -i eth0 -o usb0 -j ACCEPT
 # iptables -A FORWARD -i wlan0 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
 # iptables -A FORWARD -i eth1 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+# iptables -A FORWARD -i usb0 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
 # iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 # iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+# iptables -t nat -A POSTROUTING -o usb0 -j MASQUERADE
 
->>>>>>> 6388795c248e1e8a725c564d5984b2a1ccb652f4
 # 儲存 iptables 設定
 echo "Saving iptables settings..."
 sudo netfilter-persistent save
