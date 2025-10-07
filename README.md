@@ -1,3 +1,4 @@
+# RPi4網關設定包
 ## 測試 RPi4作為網關～
 ### eth0: RPi4 LAN孔 
 ### eth1: 測試用手機 usb分享網路給 RPi4
