@@ -1,8 +1,8 @@
-
-
-# 對 wlan0 允許 icecc 內部 LAN 成員
+# 對 wlan0 允許內部 LAN 成員開闢服務
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 10245 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 8765 -j ACCEPT
+sudo iptables -A INPUT -i wlan0 -p tcp --dport 1883 -j ACCEPT
+sudo iptables -A INPUT -i wlan0 -p tcp --dport 5678 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # 對 usb0 保留原封包限制、防範掃描

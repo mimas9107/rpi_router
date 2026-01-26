@@ -39,10 +39,10 @@ echo "🧱 FORWARD 規則（eth0 → usb0）"
 sudo iptables -A FORWARD -i eth0 -o usb0 -j ACCEPT
 sudo iptables -A FORWARD -i usb0 -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
-echo "🧱 限制服務只允許 wlan0 來源（192.168.1.0/24）..."
-sudo iptables -A INPUT -i wlan0 -s 192.168.1.0/24 -p tcp --dport 22 -j ACCEPT
-sudo iptables -A INPUT -i wlan0 -s 192.168.1.0/24 -p tcp --dport 8765 -j ACCEPT  # ICECC (如使用)
-sudo iptables -A INPUT -i eth0 -p tcp --dport 22 -j DROP
+#echo "🧱 限制服務只允許 wlan0 來源（192.168.1.0/24）..."
+#sudo iptables -A INPUT -i wlan0 -s 192.168.1.0/24 -p tcp --dport 22 -j ACCEPT
+#sudo iptables -A INPUT -i wlan0 -s 192.168.1.0/24 -p tcp --dport 8765 -j ACCEPT  # ICECC (如使用)
+#sudo iptables -A INPUT -i eth0 -p tcp --dport 22 -j DROP
 
 
 # 20250429 more safety setting than above:
