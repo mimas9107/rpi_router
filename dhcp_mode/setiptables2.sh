@@ -1,8 +1,14 @@
 # 對 wlan0 允許內部 LAN 成員開闢服務
+sudo iptables -A INPUT -i wlan0 -p tcp --dport 13000 -j ACCEPT
+sudo iptables -A INPUT -i eth0 -p tcp --dport 13000 -j ACCEPT
+sudo iptables -A INPUT -i wlan0 -p tcp --dport 12222 -j ACCEPT
+sudo iptables -A INPUT -i eth0 -p tcp --dport 12222 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 10245 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 8765 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 1883 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp --dport 5678 -j ACCEPT
+sudo iptables -A INPUT -i eth0 -p tcp --dport 3306 -j ACCEPT
+sudo iptables -A INPUT -i wlan0 -p tcp --dport 3306 -j ACCEPT
 sudo iptables -A INPUT -i wlan0 -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # 對 usb0 保留原封包限制、防範掃描
@@ -51,6 +57,7 @@ sudo iptables -A INPUT -i usb0 -p icmp --icmp-type echo-request -j DROP
 sudo iptables -A INPUT -i usb0 -p tcp --dport 23 -j DROP
 sudo iptables -A INPUT -i usb0 -p tcp --dport 445 -j DROP
 sudo iptables -A INPUT -i usb0 -p tcp --dport 135 -j DROP
+sudo iptables -A INPUT -i usb0 -p tcp --dport 3306 -j DROP
 
 sleep 2
 sudo apt install -y iptables-persistent
